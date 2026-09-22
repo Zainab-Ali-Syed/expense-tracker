@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy — Spendly{% endblock %}
+
+{% block content %}
+<div class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card" style="text-align: left;">
+            <h1 class="auth-title" style="text-align: center; margin-bottom: 2rem;">Privacy Policy</h1>
+
+            <div class="terms-content" style="font-size: 0.95rem; color: var(--ink-soft); line-height: 1.8;">
+                <section style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--ink); margin-bottom: 0.5rem; font-family: var(--font-display);">1. Data We Collect</h3>
+                    <p>We collect information that you provide directly to us, including your email address for account creation and any financial transactions you choose to log. We also collect basic usage data to improve the app experience.</p>
+                </section>
+
+                <section style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--ink); margin-bottom: 0.5rem; font-family: var(--font-display);">2. How We Use Your Data</h3>
+                    <p>Your data is used exclusively to provide the expense tracking service. This includes calculating your spending totals, categorizing expenses, and providing you with financial summaries.</p>
+                </section>
+
+                <section style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--ink); margin-bottom: 0.5rem; font-family: var(--font-display);">3. Data Storage</h3>
+                    <p>We employ industry-standard security measures to protect your data. Your financial records are stored securely and are accessible only to you through your authenticated account.</p>
+                </section>
+
+                <section style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--ink); margin-bottom: 0.5rem; font-family: var(--font-display);">4. Third Party Services</h3>
+                    <p>Spendly does not sell, trade, or rent your personal information to third parties. We do not share your financial data with any external advertising or data brokerage services.</p>
+                </section>
+
+                <section style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--ink); margin-bottom: 0.5rem; font-family: var(--font-display);">5. Contact Us</h3>
+                    <p>If you have any questions about this Privacy Policy or how your data is handled, please contact our support team at privacy@spendly.example.com.</p>
+                </section>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="{{ url_for('landing') }}" class="btn-ghost">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
