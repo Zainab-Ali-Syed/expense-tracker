@@ -21,7 +21,7 @@
 
     <div class="hero-actions">
         <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
-        <a href="#" id="open-how-it-works" class="btn-ghost">See how it works</a>
+        <a href="#" id="open-how-it-works" class="btn-primary">See how it works</a>
     </div>
 
     <div class="hero-preview">
@@ -111,13 +111,13 @@
         <div class="modal-content">
             <h2 class="auth-title" style="text-align: center;">See how it works</h2>
             <div class="modal-body" style="margin: 2rem 0;">
-                <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-md); box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                    <iframe id="how-it-works-video"
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-                            src=""
-                            allow="autoplay; encrypted-media"
-                            allowfullscreen>
-                    </iframe>
+                <div class="video-placeholder" style="position: relative; width: 100%; padding-bottom: 56.25%; background: #1a1a1a; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; overflow: hidden; color: #fff; text-align: center; flex-direction: column;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                            <div style="width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 15px solid #fff; margin-left: 5px;"></div>
+                        </div>
+                        <span style="font-size: 0.9rem; color: #a0a0a0; font-weight: 500;">Demo video coming soon</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,17 +129,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const openBtn = document.getElementById('open-how-it-works');
     const closeBtn = document.getElementById('close-how-it-works');
     const modal = document.getElementById('how-it-works-modal');
-    const video = document.getElementById('how-it-works-video');
-    const videoSrc = "https://www.youtube.com/embed/dQw4w9WgXcQ"; // Placeholder URL
 
     function openModal() {
         modal.style.display = 'flex';
-        video.src = videoSrc + "?autoplay=1";
     }
 
     function closeModal() {
         modal.style.display = 'none';
-        video.src = ""; // Stop video playback by clearing src
     }
 
     openBtn.addEventListener('click', function(e) {
