@@ -42,7 +42,21 @@ def init_db():
             )
         """)
 
+def create_user(name, email, password_hash):
+    """
+    Inserts a new user into the database.
+    Returns the new user's id.
+    Raises sqlite3.IntegrityError if email is duplicate.
+    """
+    with get_db() as conn:
+        cursor = conn.execute(
+            "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+            (name, email, password_hash)
+        )
+        return cursor.lastrowid
+
 def seed_db():
+
     """
     Inserts one demo user and 8 sample expenses.
     Prevents duplicate inserts if users already exist.
