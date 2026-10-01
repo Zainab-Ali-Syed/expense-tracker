@@ -55,6 +55,14 @@ def create_user(name, email, password_hash):
         )
         return cursor.lastrowid
 
+def get_user_by_id(user_id):
+    """
+    Fetches a user by their unique ID.
+    Returns a sqlite3.Row object if found, otherwise None.
+    """
+    with get_db() as conn:
+        return conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+
 def get_user_by_email(email):
     """
     Fetches a user by their email address.
@@ -63,7 +71,7 @@ def get_user_by_email(email):
     with get_db() as conn:
         return conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
 
-
+def seed_db():
     """
     Inserts one demo user and 8 sample expenses.
     Prevents duplicate inserts if users already exist.

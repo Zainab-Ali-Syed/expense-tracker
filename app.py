@@ -1,11 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from database.db import init_db, seed_db, create_user, get_user_by_email
+from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id
 import sqlite3
 import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-12345")
+
+@app.context_processor
+def inject_user():
+    """
+    Makes the current logged-in user available in all templates.
+    """
+    user_id = session.get("user_id")
+    if user_id:
+        return {"current_user": get_user_by_id(user_id)}
+    return {"current_user": None}
 
 
 # ------------------------------------------------------------------ #
