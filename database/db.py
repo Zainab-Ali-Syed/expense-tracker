@@ -55,7 +55,14 @@ def create_user(name, email, password_hash):
         )
         return cursor.lastrowid
 
-def seed_db():
+def get_user_by_email(email):
+    """
+    Fetches a user by their email address.
+    Returns a sqlite3.Row object if found, otherwise None.
+    """
+    with get_db() as conn:
+        return conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+
 
     """
     Inserts one demo user and 8 sample expenses.
