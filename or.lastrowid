@@ -1,0 +1,20 @@
+[1mdiff --git a/database/db.py b/database/db.py[m
+[1mindex aae3d17..b871acc 100644[m
+[1m--- a/database/db.py[m
+[1m+++ b/database/db.py[m
+[36m@@ -55,7 +55,14 @@[m [mdef create_user(name, email, password_hash):[m
+         )[m
+         return cursor.lastrowid[m
+ [m
+[31m-def seed_db():[m
+[32m+[m[32mdef get_user_by_email(email):[m
+[32m+[m[32m    """[m
+[32m+[m[32m    Fetches a user by their email address.[m
+[32m+[m[32m    Returns a sqlite3.Row object if found, otherwise None.[m
+[32m+[m[32m    """[m
+[32m+[m[32m    with get_db() as conn:[m
+[32m+[m[32m        return conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()[m
+[32m+[m
+ [m
+     """[m
+     Inserts one demo user and 8 sample expenses.[m
