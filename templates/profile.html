@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | Spendly{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+
+    <!-- User Info Header -->
+    <header class="profile-header">
+        <div class="profile-avatar">
+            {{ user_profile.initials }}
+        </div>
+        <div class="profile-info">
+            <h1>{{ user_profile.name }}</h1>
+            <p>{{ user_profile.email }}</p>
+            <div class="profile-meta">
+                <i data-lucide="calendar" class="icon"></i>
+                <span>Member since {{ user_profile.member_since }}</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Summary Stats -->
+    <section class="stats-grid">
+        <div class="stat-box">
+            <span class="stat-label">Total Spent</span>
+            <span class="stat-value">{{ summary_stats.total_spent }}</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Transactions</span>
+            <span class="stat-value">{{ summary_stats.transaction_count }}</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Top Category</span>
+            <span class="stat-value">{{ summary_stats.top_category }}</span>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <div class="profile-dashboard">
+
+        <!-- Recent Transactions -->
+        <section class="content-card">
+            <div class="card-title">
+                <i data-lucide="receipt" class="icon"></i>
+                Recent Transactions
+            </div>
+            <div class="table-responsive">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th style="text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in recent_transactions %}
+                        <tr>
+                            <td>{{ tx.date }}</td>
+                            <td>{{ tx.description }}</td>
+                            <td>
+                                <span class="badge {{ tx.badge_class }}">
+                                    {{ tx.category }}
+                                </span>
+                            </td>
+                            <td class="amount-cell">{{ tx.amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Category Breakdown -->
+        <section class="content-card">
+            <div class="card-title">
+                <i data-lucide="pie-chart" class="icon"></i>
+                Spending Breakdown
+            </div>
+            <div class="category-list">
+                {% for cat in category_breakdown %}
+                <div class="category-item">
+                    <div class="category-info">
+                        <span class="category-label">{{ cat.category }}</span>
+                        <span class="category-amount">{{ cat.amount }}</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill {{ cat.color_class }}" style="width: {{ cat.percentage }}%;"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}
