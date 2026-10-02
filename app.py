@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id
+from database.queries import get_user_by_id as get_profile_by_id, get_recent_transactions, get_category_breakdown, get_summary_stats
 import sqlite3
 import os
 
@@ -95,32 +96,44 @@ def profile():
     if not session.get("user_id"):
         return redirect(url_for("login"))
 
-    # Static data for UI phase
-    user_profile = {
-        "name": "Aryan Sharma",
-        "email": "aryan.sharma@example.com",
-        "member_since": "January 2024",
-        "initials": "AS"
-    }
+    user_id = session.get("user_id")
+    user_profile = get_profile_by_id(user_id)
 
+    if not user_profile:
+        abort(404)
+
+    summary_stats = get_summary_stats(user_id)
     summary_stats = {
-        "total_spent": "₹12,450.00",
-        "transaction_count": 42,
-        "top_category": "Dining"
+        "total_spent": f"₹{summary_stats['total_spent']:.2f}",
+        "transaction_count": summary_stats['transaction_count'],
+        "top_category": summary_stats['top_category']
     }
 
     recent_transactions = [
-        {"date": "2026-09-28", "description": "Starbucks Coffee", "category": "Dining", "amount": "₹350.00", "badge_class": "badge-dining"},
-        {"date": "2026-09-27", "description": "Uber Ride", "category": "Transport", "amount": "₹120.00", "badge_class": "badge-transport"},
-        {"date": "2026-09-25", "description": "Amazon Electronics", "category": "Shopping", "amount": "₹2,100.00", "badge_class": "badge-shopping"},
-        {"date": "2026-09-20", "description": "Monthly Rent", "category": "Housing", "amount": "₹8,000.00", "badge_class": "badge-housing"},
+        {
+            **tx,
+            "amount": f"₹{tx['amount']:.2f}",
+            "badge_class": f"badge-{tx['category'].lower()}"
+        }
+        for tx in get_recent_transactions(user_id)
     ]
 
+    category_data = get_category_breakdown(user_id)
+
+    color_map = {
+        "Housing": "color-blue",
+        "Shopping": "color-purple",
+        "Dining": "color-orange",
+        "Transport": "color-green"
+    }
+
     category_breakdown = [
-        {"category": "Housing", "amount": "₹8,000.00", "percentage": 64, "color_class": "color-blue"},
-        {"category": "Shopping", "amount": "₹2,100.00", "percentage": 17, "color_class": "color-purple"},
-        {"category": "Dining", "amount": "₹1,500.00", "percentage": 12, "color_class": "color-orange"},
-        {"category": "Transport", "amount": "₹850.00", "percentage": 7, "color_class": "color-green"},
+        {
+            **item,
+            "amount": f"₹{item['amount']:.2f}",
+            "color_class": color_map.get(item['category'], "color-gray")
+        }
+        for item in category_data
     ]
 
     return render_template(
