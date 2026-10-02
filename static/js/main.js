@@ -1,1 +1,7 @@
-// main.js — students will add JavaScript here as features are built
+// Spendly Global JS
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lucide icons on page load
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});
